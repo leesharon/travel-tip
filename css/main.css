@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 :root {
@@ -60,4 +61,13 @@ body {
 
 .main-header .main-layout .btn-search:hover {
     background-color: #9ed2c6c1;
+=======
+@font-face {
+    font-family: Dosis;
+    src: url(../fonts/Dosis/Dosis-Medium.ttf);
+}
+
+html{
+    font-family: Dosis;
+>>>>>>> 52dab867a4ecb1b877c6b55928c364ac9071e8f4
 }
