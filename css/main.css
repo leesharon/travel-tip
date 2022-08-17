@@ -1,3 +1,5 @@
+/* Basics */
+
 @font-face {
     font-family: Dosis;
     src: url(../fonts/Dosis/Dosis-Medium.ttf);
@@ -34,6 +36,8 @@ body {
     cursor: pointer;
 }
 
+/* Header */
+
 .main-header {
     background-color: var(--clr1);
     min-height: 120px;
@@ -43,7 +47,7 @@ body {
 
 .main-header .main-layout {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 100%;
     align-items: center;
 }
@@ -51,6 +55,7 @@ body {
 .main-header .main-layout h1 {
     font-size: 3.2em;
     color: #be7636;
+    margin-inline-end: auto;
 }
 
 .main-header .main-layout .input-search {
@@ -60,11 +65,60 @@ body {
     height: 40px;
 }
 
-.main-header .main-layout .btn-search {
+.main-header .main-layout .btn-search,
+.main-header .main-layout .btn-user-pos {
     background-color: var(--clr2);
     color: rgb(255, 255, 255);
     font-size: 1.1em;
 }
 
+.main-header .main-layout .btn-user-pos {
+    background-color: #be7636;
+    margin-inline-start: 15px;
+}
+
 .main-header .main-layout .btn-search:hover {
     background-color: #9ed2c6c1;
+}
+
+/* Main Content */
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    margin-top: 70px;
+}
+
+.main-content .main-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.main-content .main-layout aside {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.main-content .map-container {
+    flex-basis: 50%;
+}
+
+.main-content .weather-container {
+    background-color: #be7636;
+    height: 200px;
+    flex-basis: 50%;
+    order: 5;
+}
+
+.main-content .locs-table {
+    
+}
+
+
+.main-content .locs-table tr {
+    display: flex;
+    justify-content: ;
+}
