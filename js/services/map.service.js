@@ -4,9 +4,8 @@ export const mapService = {
     panTo
 }
 
-
 // Var that is used throughout this Module (not global)
-var gMap
+let gMap
 
 function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap')
@@ -18,8 +17,21 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
                 center: { lat, lng },
                 zoom: 15
             })
-            console.log('Map!', gMap)
+            addMapListener()
         })
+}
+
+function addMapListener() {
+    gMap.addListener('click', (mapsMouseEvent) => {
+        const locationName = prompt('What the name of the location?')
+        if (locationName) {
+            const lat = mapsMouseEvent.latLng.lat()
+            const lng = mapsMouseEvent.latLng.lng()
+            const pos = {lat, lng}
+            onAddPlace(locationName, pos)
+            placeMarkerAndPanTo(mapsMouseEvent.latLng, gMap)
+        }
+    })
 }
 
 function addMarker(loc) {
@@ -35,7 +47,6 @@ function panTo(lat, lng) {
     var laLatLng = new google.maps.LatLng(lat, lng)
     gMap.panTo(laLatLng)
 }
-
 
 function _connectGoogleApi() {
     if (window.google) return Promise.resolve()
