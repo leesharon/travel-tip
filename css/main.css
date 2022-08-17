@@ -1,0 +1,8 @@
+@font-face {
+    font-family: Dosis;
+    src: url(../fonts/Dosis/Dosis-Medium.ttf);
+}
+
+html{
+    font-family: Dosis;
+}
