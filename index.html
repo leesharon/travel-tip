@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,36 +8,50 @@
     <link rel="stylesheet" href="lib/normalize.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
+
 <body>
-    <h1>TravelTip Starter</h1>
-    <form onsubmit="onSearchLocation(event,this)">
-        <input type="search" name="locations-input" placeholder="Insert location here">
-        <button>Take me</button>
-    </form>
-    <div id="map" style="width: 100%; height: 400px;"></div>
-    <button onclick="onAddMarker()" class="btn-add-marker">Add Marker Speific Location</button>
-    <button onclick="onGetUserPos()" class="btn-user-pos">Get User Position</button>
-    <button onclick="onGetLocs()" class="btn-get-locs">Get Locations</button>
-    <button onclick="onPanTo(35.6762,139.6503)"class="btn-pan">Pan Map to Tokyo</button>
 
-    <p>You are at: <span class="user-pos"></span></p>
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="main-layout header-layout">
+            <h1>TravelTip</h1>
+            <form onsubmit="onSearchLocation(event,this)">
+                <input class="input-search" type="search" name="locations-input" placeholder="Insert location here">
+                <button class="btn btn-search">Take me</button>
+            </form>
+        </div>
+    </header>
 
-    <table class="locs-table">
-        <thead>
-            <th>Name</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Created at</th>
-            <th>Updated at</th>
-            <th>Actions</th>
-        </thead>
-        <tbody class="locs-body">
+    <!-- Main Content -->
+    <main class="main-content">
 
-        </tbody>
-    </table>
+        <!-- Map -->
+        <div class="map-container">
+            <div id="map" style="width: 100%; height: 400px;"></div>
+        </div>
     
+        <button onclick="onGetUserPos()" class="btn btn-user-pos">My Location</button>
+    
+        <p>You are at: <span class="user-pos"></span></p>
+        <section class="weather-container"></section>
+
+        <!-- Locations Table -->
+        <table class="locs-table">
+            <thead>
+                <th>Name</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Actions</th>
+            </thead>
+            <tbody class="locs-body">
+    
+            </tbody>
+        </table>
+    </main>
+
     <script src="lib/swal.js"></script>
     <script src="lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>
 </body>
+
 </html>

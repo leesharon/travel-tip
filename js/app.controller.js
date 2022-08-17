@@ -75,12 +75,14 @@ function _setLocationByQueryParams() {
 function onCopyLink(lat, lng) {
     const queryStringParams = `?lat=${lat}&lng=${lng}`
     const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryStringParams
-    var data = [new ClipboardItem({ "text/plain": new Blob(["Text data"], { type: "text/plain" }) })]
-    navigator.clipboard.write(data).then(function () {
-        console.log("Copied to clipboard successfully!")
-    }, function () {
-        console.error("Unable to write to clipboard. :-(")
-    })
+    const data = [new ClipboardItem({ "text/plain": new Blob([newUrl], { type: "text/plain" }) })]
+
+    navigator.clipboard.write(data)
+        .then(() => {
+            console.log("Copied to clipboard successfully!")
+        }, () => {
+            console.error("Unable to write to clipboard. :-(")
+        })
 }
 
 function onPanTo(lat, lng) {
@@ -95,6 +97,7 @@ function onAddLocation(locationName, pos) {
 }
 
 function onRemoveLoc(locId) {
+    console.log('onRemoveLoc ~ locId', locId)
     locService.removeLoc(locId)
     locService.getLocs()
         .then(_renderLocs)
@@ -106,8 +109,6 @@ function _renderLocs(locs) {
         <td>${loc.name}</td>
         <td>${loc.lat.toFixed(3)}</td>
         <td>${loc.lng.toFixed(3)}</td>
-        <td>${loc.createdAt}</td>
-        <td>${loc.updatedAt}</td>
         <td>
             <button onclick="onRemoveLoc('${loc.id}')">Delete</button>
             <button onclick="onPanTo(${loc.lat}, ${loc.lng})">Go</button>

@@ -44,6 +44,7 @@ function addLocation(name, pos) {
 function removeLoc(locId) {
     const locIdx = locs.findIndex(loc => loc.id === locId)
     locs.splice(locIdx, 1)
+    _saveLocsSaveToStorage()
 }
 
 function _createLocation(name, { lat, lng }) {
@@ -51,9 +52,7 @@ function _createLocation(name, { lat, lng }) {
         id: utilService.makeId(4),
         name,
         lat,
-        lng,
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        lng
     }
 }
 
