@@ -1,4 +1,5 @@
 import { locService } from './loc.service.js'
+import { appController } from '../app.controller.js'
 
 export const mapService = {
     initMap,
@@ -31,7 +32,7 @@ function addMapListener() {
             const lat = mapsMouseEvent.latLng.lat()
             const lng = mapsMouseEvent.latLng.lng()
             const pos = {lat, lng}
-            locService.addLocation(locationName, pos)
+            appController.onAddLocation(locationName,pos)
             placeMarkerAndPanTo(mapsMouseEvent.latLng, gMap)
         }
     })
@@ -64,3 +65,4 @@ function _connectGoogleApi() {
         elGoogleApi.onerror = () => reject('Google script failed to load')
     })
 }
+

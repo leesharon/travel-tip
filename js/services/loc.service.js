@@ -4,10 +4,12 @@ import { storageService } from './storage.services.js'
 export const locService = {
     getLocs,
     addLocation,
-    removeLoc
+    removeLoc,
+    searchLocation
 }
 
 const STORAGE_KEY = 'locsDB'
+
 
 const locs = _loadLocsFromStorage() || []
 
@@ -20,10 +22,22 @@ function getLocs() {
     // })
 }
 
+function searchLocation(locationName) {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${locationName}&key=AIzaSyDJOS8Lw2pOyAk7dwu1HRePE9DHKTIiAE4`
+    return axios.get(url)
+        .then(res => res.data.results[0])
+        .then(res => {
+            return {
+                name: res.formatted_address,
+                lat: res.geometry.location.lat,
+                lng: res.geometry.location.lng
+            }
+        })
+}
+
 function addLocation(name, pos) {
     const location = _createLocation(name, pos)
     locs.push(location)
-    //TODO save to storage
     _saveLocsSaveToStorage()
 }
 

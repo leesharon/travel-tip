@@ -1,5 +1,8 @@
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
+export const appController = {
+    onAddLocation
+}
 
 window.onload = onInit
 window.onAddMarker = onAddMarker
@@ -7,6 +10,7 @@ window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
 window.onRemoveLoc = onRemoveLoc
+window.onSearchLocation = onSearchLocation
 
 function onInit() {
     mapService.initMap()
@@ -18,15 +22,24 @@ function onInit() {
 
 // This function provides a Promise API to the callback-based-api of getCurrentPosition
 function getPosition() {
-    console.log('Getting Pos')
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
 
-function onAddMarker() {
-    console.log('Adding a marker')
-    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
+function onAddMarker(lat, lng) {
+    mapService.addMarker({ lat, lng })
+}
+
+function onSearchLocation(ev, elForm) {
+    ev.preventDefault()
+    const locationName = elForm.querySelector('[name=locations-input]').value
+    locService.searchLocation(locationName)
+        .then(res => {
+            const{lat,lng,name} = res
+            onAddLocation(name,{lat,lng})
+            onPanTo(lat,lng)
+        })
 }
 
 function onGetLocs() {
@@ -37,10 +50,9 @@ function onGetLocs() {
 function onGetUserPos() {
     getPosition()
         .then(pos => {
-        console.log('onGetUserPos ~ pos', pos)
-            const {latitude, longitude} = pos.coords
-
+            const { latitude, longitude } = pos.coords
             onPanTo(latitude, longitude)
+            onAddMarker(latitude, longitude)
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
         })
@@ -50,19 +62,24 @@ function onGetUserPos() {
 }
 
 function onPanTo(lat, lng) {
-    console.log('Panning the Map')
     mapService.panTo(lat, lng)
+    onAddMarker(lat, lng)
+}
+
+function onAddLocation(locationName, pos) {
+    locService.addLocation(locationName, pos)
+    locService.getLocs()
+        .then(_renderLocs)
 }
 
 function onRemoveLoc(locId) {
     locService.removeLoc(locId)
-    locService.getLocs
+    locService.getLocs()
         .then(_renderLocs)
 }
 
 function _renderLocs(locs) {
-    console.log('_renderLocs ~ locs', locs)
-    const strHTMLs = locs.map( loc => `
+    const strHTMLs = locs.map(loc => `
     <tr>
         <td>${loc.name}</td>
         <td>${loc.lat.toFixed(3)}</td>
@@ -75,7 +92,6 @@ function _renderLocs(locs) {
         </td>
     </tr>
     `)
-    console.log('_renderLocs ~ strHTMLs', strHTMLs.join(''))
 
     document.querySelector('.locs-body').innerHTML = strHTMLs.join('')
 }
