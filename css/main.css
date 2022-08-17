@@ -30,6 +30,7 @@ body {
     border: none;
     padding: 10px 20px;
     border-radius: 20px;
+    color: rgb(255, 255, 255);
 }
 
 .btn:hover {
@@ -68,7 +69,6 @@ body {
 .main-header .main-layout .btn-search,
 .main-header .main-layout .btn-user-pos {
     background-color: var(--clr2);
-    color: rgb(255, 255, 255);
     font-size: 1.1em;
 }
 
@@ -100,6 +100,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
+    gap: 15px;
 }
 
 .main-content .map-container {
@@ -111,14 +112,50 @@ body {
     height: 200px;
     flex-basis: 50%;
     order: 5;
+    background-color: var(--clr2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.main-content .weather-container h1 {
+    margin: 0;
+    margin-top: 15px;
+}
+
+.main-content .weather-container p {
+    font-size: 1.2em;
+    margin: 0;
 }
 
 .main-content .locs-table {
-    
+    background-color: var(--clr3);
+    border-radius: 20px;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
 }
 
 
+.main-content .locs-table thead {
+    font-weight: 600; 
+    margin-bottom: 8px;
+}
+
 .main-content .locs-table tr {
-    display: flex;
-    justify-content: ;
+    text-align: center;
+}
+
+.main-content .locs-table .btn-delete {
+    background-color: rgb(200, 82, 82);
+}
+
+.main-content .locs-table .btn-go {
+    background-color: var(--clr2);
+}
+
+.main-content .locs-table .btn-copy {
+    background-color: rgb(235, 191, 49);
 }
