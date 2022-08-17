@@ -4,7 +4,8 @@ import { appController } from '../app.controller.js'
 export const mapService = {
     initMap,
     addMarker,
-    panTo
+    panTo,
+    placeMarkerAndPanTo
 }
 
 
@@ -27,15 +28,42 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 
 function addMapListener() {
     gMap.addListener('click', (mapsMouseEvent) => {
-        const locationName = prompt('What the name of the location?')
-        if (locationName) {
+
+        Swal.fire({
+            input: 'text',
+            icon: 'question',
+            title: 'Enter the name location',
+            inputPlaceholder: 'My favorite sunset spot',
+            showCloseButton: true
+        }).then((res) => {
+            if (res.isConfirmed) {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Location Saved',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+              return res.value
+            }
+            return null
+        }).then((locationName)=>{
+            if (!locationName) return
             const lat = mapsMouseEvent.latLng.lat()
             const lng = mapsMouseEvent.latLng.lng()
             const pos = {lat, lng}
             appController.onAddLocation(locationName,pos)
-            placeMarkerAndPanTo(mapsMouseEvent.latLng, gMap)
-        }
+            placeMarkerAndPanTo(lat,lng)
+        })
+
     })
+}
+
+function placeMarkerAndPanTo(lat,lng){
+    console.log(lat,lng)
+    panTo(lat,lng)
+    addMarker({lat,lng})
+
 }
 
 function addMarker(loc) {
