@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TravelTip!!!</title>
+    <link rel="stylesheet" href="lib/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <h1>TravelTip Starter</h1>
@@ -14,11 +16,23 @@
     <button onclick="onPanTo()"class="btn-pan">Pan Map to Tokyo</button>
 
     <p>You are at: <span class="user-pos"></span></p>
-    <p>Locations: 
-        <pre class="locs"></pre>
-    </p>
+
+    <table class="locs-table">
+        <thead>
+            <th>Name</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Created at</th>
+            <th>Updated at</th>
+            <th>Actions</th>
+        </thead>
+        <tbody class="locs-body">
+
+        </tbody>
+    </table>
     
 
+    <script src="lib/axios.js"></script>
     <script type="module" src="js/app.controller.js"></script>
 </body>
 </html>

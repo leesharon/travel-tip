@@ -1,8 +1,11 @@
+import { locService } from './loc.service.js'
+
 export const mapService = {
     initMap,
     addMarker,
     panTo
 }
+
 
 // Var that is used throughout this Module (not global)
 let gMap
@@ -28,7 +31,7 @@ function addMapListener() {
             const lat = mapsMouseEvent.latLng.lat()
             const lng = mapsMouseEvent.latLng.lng()
             const pos = {lat, lng}
-            onAddPlace(locationName, pos)
+            locService.addLocation(locationName, pos)
             placeMarkerAndPanTo(mapsMouseEvent.latLng, gMap)
         }
     })

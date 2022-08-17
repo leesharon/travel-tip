@@ -6,6 +6,7 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onRemoveLoc = onRemoveLoc
 
 function onInit() {
     mapService.initMap()
@@ -30,16 +31,16 @@ function onAddMarker() {
 
 function onGetLocs() {
     locService.getLocs()
-        .then(locs => {
-            console.log('Locations:', locs)
-            document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
-        })
+        .then(_renderLocs)
 }
 
 function onGetUserPos() {
     getPosition()
         .then(pos => {
-            console.log('User position is:', pos.coords)
+        console.log('onGetUserPos ~ pos', pos)
+            const {latitude, longitude} = pos.coords
+
+            onPanTo(latitude, longitude)
             document.querySelector('.user-pos').innerText =
                 `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
         })
@@ -47,7 +48,34 @@ function onGetUserPos() {
             console.log('err!!!', err)
         })
 }
-function onPanTo() {
+
+function onPanTo(lat, lng) {
     console.log('Panning the Map')
-    mapService.panTo(35.6895, 139.6917)
+    mapService.panTo(lat, lng)
+}
+
+function onRemoveLoc(locId) {
+    locService.removeLoc(locId)
+    locService.getLocs
+        .then(_renderLocs)
+}
+
+function _renderLocs(locs) {
+    console.log('_renderLocs ~ locs', locs)
+    const strHTMLs = locs.map( loc => `
+    <tr>
+        <td>${loc.name}</td>
+        <td>${loc.lat.toFixed(3)}</td>
+        <td>${loc.lng.toFixed(3)}</td>
+        <td>${loc.createdAt}</td>
+        <td>${loc.updatedAt}</td>
+        <td>
+            <button onclick="onRemoveLoc('${loc.id}')">Delete</button>
+            <button onclick="onPanTo(${loc.lat}, ${loc.lng})">Go</button>
+        </td>
+    </tr>
+    `)
+    console.log('_renderLocs ~ strHTMLs', strHTMLs.join(''))
+
+    document.querySelector('.locs-body').innerHTML = strHTMLs.join('')
 }
