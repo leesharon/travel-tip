@@ -79,8 +79,7 @@ function onGetUserPos() {
             const { latitude, longitude } = pos.coords
             onPanTo(latitude, longitude)
             onAddMarker(latitude, longitude)
-            document.querySelector('.user-pos').innerText =
-                `Latitude: ${pos.coords.latitude} - Longitude: ${pos.coords.longitude}`
+            useWeatherData(latitude,longitude)
         })
         .catch(err => {
             console.log('err!!!', err)
