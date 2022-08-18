@@ -21,7 +21,10 @@ function onInit() {
             console.log('Map is ready')
             _setLocationByQueryParams()
             onGetLocs()
-            useWeatherData()
+            getPosition().then(pos => {
+                const { latitude, longitude } = pos.coords
+                useWeatherData(latitude, longitude)
+            })
         })
         .catch(() => console.log('Error: cannot init map'))
 }
@@ -37,13 +40,10 @@ function onAddMarker(lat, lng) {
     mapService.addMarker({ lat, lng })
 }
 
-function useWeatherData() {
-    getPosition().then(pos => {
-        const { latitude, longitude } = pos.coords
-        weatherService.getWeather(latitude, longitude).then(_renderWeatherData)
-    })
-}
+function useWeatherData(lat, lng) {
+    weatherService.getWeather(lat, lng).then(_renderWeatherData)
 
+}
 
 function _renderWeatherData({ temp, feelsLike, humidity, description, name }) {
     const strHTML = `
@@ -64,6 +64,7 @@ function onSearchLocation(ev, elForm) {
             const { lat, lng, name } = res
             onAddLocation(name, { lat, lng })
             onPanTo(lat, lng)
+            useWeatherData(lat, lng)
         })
 }
 
@@ -110,6 +111,7 @@ function onCopyLink(lat, lng) {
 function onPanTo(lat, lng) {
     mapService.panTo(lat, lng)
     onAddMarker(lat, lng)
+    useWeatherData(lat, lng)
 }
 
 function onAddLocation(locationName, pos) {
